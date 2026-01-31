@@ -31,37 +31,38 @@ export default function Home() {
 
       <main className="min-h-screen bg-background">
         {/* Hero Section */}
-        <section id="home" className="container mx-auto px-4 py-16 md:py-24">
-          <div className="max-w-4xl mx-auto text-center space-y-8">
+        <section id="home" className="container mx-auto px-4 py-12 sm:py-16 md:py-24">
+          <div className="max-w-4xl mx-auto text-center space-y-6 sm:space-y-8">
             {/* Headline */}
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-balance leading-tight">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-balance leading-tight px-1">
               Bring Delhi's local markets to your screen — <span className="text-[#DA0350]">live</span>.
             </h1>
 
             {/* Sub-headline */}
-            <p className="text-lg md:text-xl lg:text-2xl text-muted-foreground text-balance leading-relaxed">
+            <p className="text-base sm:text-lg md:text-xl lg:text-2xl text-muted-foreground text-balance leading-relaxed px-1">
               See products on video call before buying.
-              <br />
+              <br className="hidden sm:block" />
+              <span className="sm:hidden"> </span>
               Real shops. Real people. Home delivered.
             </p>
 
             {/* Stats Counter */}
-            <div className="flex flex-wrap justify-center gap-8 py-8">
-              <div className="text-center">
-                <div className="text-4xl md:text-5xl font-bold text-[#DA0350]">{stats.shops.toLocaleString()}</div>
-                <div className="text-sm text-muted-foreground mt-2">Shops Applied</div>
+            <div className="flex flex-wrap justify-center gap-6 sm:gap-8 py-6 sm:py-8">
+              <div className="text-center min-w-[100px]">
+                <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#DA0350]">{stats.shops.toLocaleString()}</div>
+                <div className="text-xs sm:text-sm text-muted-foreground mt-1 sm:mt-2">Shops Applied</div>
               </div>
-              <div className="text-center">
-                <div className="text-4xl md:text-5xl font-bold text-[#C94A52]">{stats.buyers.toLocaleString()}</div>
-                <div className="text-sm text-muted-foreground mt-2">Buyers Registered</div>
+              <div className="text-center min-w-[100px]">
+                <div className="text-3xl sm:text-4xl md:text-5xl font-bold text-[#C94A52]">{stats.buyers.toLocaleString()}</div>
+                <div className="text-xs sm:text-sm text-muted-foreground mt-1 sm:mt-2">Buyers Registered</div>
               </div>
             </div>
 
             {/* CTA Buttons - Join Buyer Waitlist primary */}
-            <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 justify-center items-stretch sm:items-center px-2 sm:px-0">
               <Button
                 size="lg"
-                className="w-full sm:w-auto text-base md:text-lg px-8 py-6 bg-[#C94A52] hover:bg-[#B83D45] text-white font-semibold shadow-lg"
+                className="w-full sm:w-auto text-sm sm:text-base md:text-lg px-6 sm:px-8 py-5 sm:py-6 bg-[#C94A52] hover:bg-[#B83D45] text-white font-semibold shadow-lg"
                 onClick={() => setShowBuyerForm(true)}
               >
                 Join Buyer Waitlist
@@ -69,7 +70,7 @@ export default function Home() {
               <Button
                 size="lg"
                 variant="outline"
-                className="w-full sm:w-auto text-base md:text-lg px-8 py-6 border-2 border-[#C94A52] text-[#C94A52] hover:bg-[#C94A52] hover:text-white bg-transparent"
+                className="w-full sm:w-auto text-sm sm:text-base md:text-lg px-6 sm:px-8 py-5 sm:py-6 border-2 border-[#C94A52] text-[#C94A52] hover:bg-[#C94A52] hover:text-white bg-transparent"
                 onClick={() => setShowSellerForm(true)}
               >
                 Apply as a Founding Shop
@@ -77,7 +78,7 @@ export default function Home() {
             </div>
 
             {/* Small Text */}
-            <p className="text-sm text-muted-foreground">Access is limited. We're onboarding select stores only.</p>
+            <p className="text-xs sm:text-sm text-muted-foreground px-2">Access is limited. We're onboarding select stores only.</p>
           </div>
         </section>
 

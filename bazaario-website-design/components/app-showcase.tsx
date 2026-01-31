@@ -1,11 +1,8 @@
 "use client"
 
-import { useRef } from "react"
 import { Card } from "@/components/ui/card"
 
 export function AppShowcase() {
-  const scrollRef = useRef<HTMLDivElement>(null)
-
   const appScreens = [
     {
       title: "Browse Live Shops",
@@ -30,20 +27,16 @@ export function AppShowcase() {
   ]
 
   return (
-    <section className="py-16 bg-muted/30">
+    <section className="py-12 sm:py-16 bg-muted/30">
       <div className="container mx-auto px-4">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">Experience Shopping Like Never Before</h2>
-        <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+        <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-center mb-3 sm:mb-4">Experience Shopping Like Never Before</h2>
+        <p className="text-center text-muted-foreground text-sm sm:text-base mb-8 sm:mb-12 max-w-2xl mx-auto px-1">
           Explore our app interface designed for seamless live shopping
         </p>
 
-        <div
-          ref={scrollRef}
-          className="flex justify-center gap-6 overflow-x-auto pb-6 snap-x snap-mandatory scrollbar-hide"
-          style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
-        >
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-5xl mx-auto">
           {appScreens.map((screen, index) => (
-            <Card key={index} className="flex-shrink-0 w-[220px] sm:w-[240px] md:w-[260px] snap-center overflow-hidden border-2">
+            <Card key={index} className="w-full overflow-hidden border-2">
               <div className="relative aspect-[3/4] bg-muted">
                 <img
                   src={screen.image || "/placeholder.svg"}
@@ -52,8 +45,8 @@ export function AppShowcase() {
                 />
               </div>
               <div className="p-4 text-center">
-                <h3 className="font-semibold mb-1">{screen.title}</h3>
-                <p className="text-sm text-muted-foreground">{screen.description}</p>
+                <h3 className="font-semibold mb-1 text-sm sm:text-base">{screen.title}</h3>
+                <p className="text-xs sm:text-sm text-muted-foreground">{screen.description}</p>
               </div>
             </Card>
           ))}

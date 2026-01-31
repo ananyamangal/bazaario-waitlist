@@ -3,9 +3,9 @@ import Link from "next/link"
 
 export function Footer() {
   return (
-    <footer className="bg-muted/50 border-t mt-16">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <footer className="bg-muted/50 border-t mt-12 sm:mt-16">
+      <div className="container mx-auto px-4 sm:px-6 py-8 sm:py-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 sm:gap-8">
           {/* Logo and Description – light in light mode, dark logo in dark mode */}
           <div className="space-y-4">
             <Image
@@ -13,14 +13,14 @@ export function Footer() {
               alt="Bazaario"
               width={180}
               height={55}
-              className="h-12 w-auto dark:hidden"
+              className="h-10 sm:h-12 w-auto dark:hidden max-w-[160px]"
             />
             <Image
               src="/logo-dark.png"
               alt="Bazaario"
               width={180}
               height={55}
-              className="h-12 w-auto hidden dark:block"
+              className="h-10 sm:h-12 w-auto hidden dark:block max-w-[160px]"
             />
             <p className="text-sm text-muted-foreground leading-relaxed">
               Bringing Delhi's local markets to your screen — live. Shop from real stores via video call.
@@ -66,7 +66,7 @@ export function Footer() {
           </div>
         </div>
 
-        <div className="border-t mt-8 pt-8 text-center text-sm text-muted-foreground">
+        <div className="border-t mt-6 sm:mt-8 pt-6 sm:pt-8 text-center text-xs sm:text-sm text-muted-foreground">
           <p>&copy; {new Date().getFullYear()} Bazaario. All rights reserved.</p>
         </div>
       </div>

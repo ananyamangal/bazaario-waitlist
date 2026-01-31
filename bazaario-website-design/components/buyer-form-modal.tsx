@@ -61,7 +61,7 @@ export function BuyerFormModal({ open, onOpenChange, onSuccess }: BuyerFormModal
   if (step === "success") {
     return (
       <Dialog open={open} onOpenChange={handleClose}>
-        <DialogContent className="sm:max-w-md">
+        <DialogContent className="w-[calc(100%-2rem)] max-w-md max-h-[90vh] overflow-y-auto mx-auto">
           <div className="flex justify-center mb-4">
             <Image src="/logo.png" alt="Bazaario" width={160} height={50} className="h-11 w-auto dark:hidden" />
             <Image src="/logo-dark.png" alt="Bazaario" width={160} height={50} className="h-11 w-auto hidden dark:block" />
@@ -87,7 +87,7 @@ export function BuyerFormModal({ open, onOpenChange, onSuccess }: BuyerFormModal
 
   return (
     <Dialog open={open} onOpenChange={handleClose}>
-      <DialogContent className="sm:max-w-md">
+      <DialogContent className="w-[calc(100%-2rem)] max-w-md max-h-[90vh] overflow-y-auto mx-auto">
         <div className="flex justify-center mb-4">
           <Image src="/logo.png" alt="Bazaario" width={160} height={50} className="h-11 w-auto dark:hidden" />
           <Image src="/logo-dark.png" alt="Bazaario" width={160} height={50} className="h-11 w-auto hidden dark:block" />

@@ -19,16 +19,16 @@ export function Navbar() {
 
   return (
     <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
-      <div className="container mx-auto px-4">
-        <div className="flex h-20 items-center justify-between">
+      <div className="container mx-auto px-4 sm:px-6">
+        <div className="flex h-16 sm:h-20 items-center justify-between gap-2">
           {/* Logo – light in light mode, dark logo in dark mode */}
-          <Link href="/" className="flex items-center relative">
+          <Link href="/" className="flex items-center relative shrink-0 min-w-0">
             <Image
               src="/logo.png"
               alt="Bazaario"
               width={200}
               height={60}
-              className="h-14 w-auto dark:hidden"
+              className="h-10 sm:h-14 w-auto dark:hidden max-w-[140px] sm:max-w-none"
               priority
             />
             <Image
@@ -36,7 +36,7 @@ export function Navbar() {
               alt="Bazaario"
               width={200}
               height={60}
-              className="h-14 w-auto hidden dark:block"
+              className="h-10 sm:h-14 w-auto hidden dark:block max-w-[140px] sm:max-w-none"
               priority
             />
           </Link>
