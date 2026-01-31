@@ -6,11 +6,14 @@ import { sellerWaitlistSchema } from "@/lib/schemas/waitlist"
 let cachedClient: MongoClient | null = null
 
 async function connectToDatabase() {
+  const uri = process.env.MONGODB_URI
+  if (!uri) {
+    throw new Error("MONGODB_URI is not set. Add it in Vercel → Settings → Environment Variables.")
+  }
   if (cachedClient) {
     return cachedClient
   }
-
-  const client = await MongoClient.connect(process.env.MONGODB_URI!)
+  const client = await MongoClient.connect(uri)
   cachedClient = client
   return client
 }
@@ -44,6 +47,9 @@ export async function POST(request: Request) {
     return NextResponse.json({ success: true }, { status: 200 })
   } catch (error) {
     console.error("Error saving seller waitlist:", error)
-    return NextResponse.json({ error: "Failed to save data" }, { status: 500 })
+    const message = error instanceof Error && error.message.includes("MONGODB_URI")
+      ? "Server is not configured for the database yet. Please try again later."
+      : "Failed to save data. Please check your connection and try again."
+    return NextResponse.json({ error: message }, { status: 500 })
   }
 }

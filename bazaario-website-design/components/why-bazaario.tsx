@@ -36,7 +36,7 @@ export function WhyBazaario() {
           {painPoints.map((point, index) => (
             <div
               key={index}
-              className="bg-gradient-to-br from-[#DA0350]/10 via-[#F18288]/10 to-background border border-[#DA0350]/20 rounded-lg p-6 hover:shadow-lg hover:border-[#DA0350]/40 transition-all"
+              className="bg-gradient-to-br from-[#DA0350]/10 via-[#C94A52]/10 to-background border border-[#DA0350]/20 rounded-lg p-6 hover:shadow-lg hover:border-[#DA0350]/40 transition-all"
             >
               <h3 className="text-lg font-semibold mb-3 text-balance leading-snug text-[#DA0350]">{point.title}</h3>
               <p className="text-sm text-muted-foreground leading-relaxed">{point.description}</p>

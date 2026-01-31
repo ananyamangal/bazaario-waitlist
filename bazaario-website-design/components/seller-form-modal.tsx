@@ -111,15 +111,15 @@ export function SellerFormModal({ open, onOpenChange, onSuccess }: SellerFormMod
             <DialogTitle className="text-2xl text-center">Thank You!</DialogTitle>
           </DialogHeader>
           <div className="text-center space-y-4 py-6">
-            <div className="w-16 h-16 bg-[#DA0350]/10 rounded-full flex items-center justify-center mx-auto">
-              <svg className="w-8 h-8 text-[#DA0350]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div className="w-16 h-16 bg-[#C94A52]/10 rounded-full flex items-center justify-center mx-auto">
+              <svg className="w-8 h-8 text-[#C94A52]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
               </svg>
             </div>
             <p className="text-muted-foreground">
               We will contact you within <strong>48 hours</strong>!
             </p>
-            <Button onClick={handleClose} className="w-full bg-[#DA0350] hover:bg-[#DA0350]/90">
+            <Button onClick={handleClose} className="w-full bg-[#C94A52] hover:bg-[#B83D45] text-white">
               Close
             </Button>
           </div>
@@ -269,7 +269,7 @@ export function SellerFormModal({ open, onOpenChange, onSuccess }: SellerFormMod
 
           <Button
             type="submit"
-            className="w-full h-12 text-base bg-[#DA0350] hover:bg-[#DA0350]/90"
+            className="w-full h-12 text-base bg-[#C94A52] hover:bg-[#B83D45] text-white"
             disabled={loading || !formData.openToVideoCalls || formData.categories.length === 0}
           >
             {loading ? <Spinner className="mr-2" /> : null}

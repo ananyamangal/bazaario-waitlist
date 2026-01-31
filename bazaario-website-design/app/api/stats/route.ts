@@ -5,11 +5,14 @@ import { MongoClient } from "mongodb"
 let cachedClient: MongoClient | null = null
 
 async function connectToDatabase() {
+  const uri = process.env.MONGODB_URI
+  if (!uri) {
+    throw new Error("MONGODB_URI is not set")
+  }
   if (cachedClient) {
     return cachedClient
   }
-
-  const client = await MongoClient.connect(process.env.MONGODB_URI!)
+  const client = await MongoClient.connect(uri)
   cachedClient = client
   return client
 }

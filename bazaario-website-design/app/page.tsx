@@ -52,7 +52,7 @@ export default function Home() {
                 <div className="text-sm text-muted-foreground mt-2">Shops Applied</div>
               </div>
               <div className="text-center">
-                <div className="text-4xl md:text-5xl font-bold text-[#F18288]">{stats.buyers.toLocaleString()}</div>
+                <div className="text-4xl md:text-5xl font-bold text-[#C94A52]">{stats.buyers.toLocaleString()}</div>
                 <div className="text-sm text-muted-foreground mt-2">Buyers Registered</div>
               </div>
             </div>
@@ -61,7 +61,7 @@ export default function Home() {
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button
                 size="lg"
-                className="w-full sm:w-auto text-base md:text-lg px-8 py-6 bg-[#DA0350] hover:bg-[#DA0350]/90 text-white font-semibold shadow-lg"
+                className="w-full sm:w-auto text-base md:text-lg px-8 py-6 bg-[#C94A52] hover:bg-[#B83D45] text-white font-semibold shadow-lg"
                 onClick={() => setShowBuyerForm(true)}
               >
                 Join Buyer Waitlist
@@ -69,7 +69,7 @@ export default function Home() {
               <Button
                 size="lg"
                 variant="outline"
-                className="w-full sm:w-auto text-base md:text-lg px-8 py-6 border-2 border-[#DA0350] text-[#DA0350] hover:bg-[#DA0350] hover:text-white bg-transparent"
+                className="w-full sm:w-auto text-base md:text-lg px-8 py-6 border-2 border-[#C94A52] text-[#C94A52] hover:bg-[#C94A52] hover:text-white bg-transparent"
                 onClick={() => setShowSellerForm(true)}
               >
                 Apply as a Founding Shop
