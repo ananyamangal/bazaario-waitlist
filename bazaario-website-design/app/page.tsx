@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, useCallback } from "react"
 import { Button } from "@/components/ui/button"
 import { SellerFormModal } from "@/components/seller-form-modal"
 import { BuyerFormModal } from "@/components/buyer-form-modal"
@@ -8,19 +8,22 @@ import { AppShowcase } from "@/components/app-showcase"
 import { Navbar } from "@/components/navbar"
 import { WhyBazaario } from "@/components/why-bazaario"
 import { Footer } from "@/components/footer"
+import { getStats } from "@/lib/api"
 
 export default function Home() {
   const [showSellerForm, setShowSellerForm] = useState(false)
   const [showBuyerForm, setShowBuyerForm] = useState(false)
-  const [stats, setStats] = useState({ shops: 112, buyers: 1002131 })
+  const [stats, setStats] = useState({ shops: 112, buyers: 128 })
 
-  useEffect(() => {
-    // Fetch real-time stats
-    fetch("/api/stats")
-      .then((res) => res.json())
-      .then((data) => setStats(data))
+  const refetchStats = useCallback(() => {
+    getStats()
+      .then(setStats)
       .catch((err) => console.error("Failed to fetch stats:", err))
   }, [])
+
+  useEffect(() => {
+    refetchStats()
+  }, [refetchStats])
 
   return (
     <>
@@ -54,22 +57,22 @@ export default function Home() {
               </div>
             </div>
 
-            {/* CTA Buttons */}
+            {/* CTA Buttons - Join Buyer Waitlist primary */}
             <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
               <Button
                 size="lg"
-                className="w-full sm:w-auto text-base md:text-lg px-8 py-6 bg-[#DA0350] hover:bg-[#DA0350]/90 text-white"
-                onClick={() => setShowSellerForm(true)}
+                className="w-full sm:w-auto text-base md:text-lg px-8 py-6 bg-[#DA0350] hover:bg-[#DA0350]/90 text-white font-semibold shadow-lg"
+                onClick={() => setShowBuyerForm(true)}
               >
-                Apply as a Founding Shop
+                Join Buyer Waitlist
               </Button>
               <Button
                 size="lg"
                 variant="outline"
-                className="w-full sm:w-auto text-base md:text-lg px-8 py-6 border-2 border-[#F18288] text-[#F18288] hover:bg-[#F18288] hover:text-white bg-transparent"
-                onClick={() => setShowBuyerForm(true)}
+                className="w-full sm:w-auto text-base md:text-lg px-8 py-6 border-2 border-[#DA0350] text-[#DA0350] hover:bg-[#DA0350] hover:text-white bg-transparent"
+                onClick={() => setShowSellerForm(true)}
               >
-                Join Buyer Waitlist
+                Apply as a Founding Shop
               </Button>
             </div>
 
@@ -86,9 +89,9 @@ export default function Home() {
           <AppShowcase />
         </section>
 
-        {/* Modals */}
-        <SellerFormModal open={showSellerForm} onOpenChange={setShowSellerForm} />
-        <BuyerFormModal open={showBuyerForm} onOpenChange={setShowBuyerForm} />
+        {/* Modals – connected to API; onSuccess refreshes stats */}
+        <SellerFormModal open={showSellerForm} onOpenChange={setShowSellerForm} onSuccess={refetchStats} />
+        <BuyerFormModal open={showBuyerForm} onOpenChange={setShowBuyerForm} onSuccess={refetchStats} />
       </main>
 
       <Footer />

@@ -9,12 +9,12 @@ export function AppShowcase() {
   const appScreens = [
     {
       title: "Browse Live Shops",
-      image: "/mobile-app-showing-live-video-shopping-feed-with-i.jpg",
-      description: "See shops live streaming their products",
+      image: "/bazaario-browse-live-shops.png",
+      description: "Shop from offline stores — popular markets, categories, and top stores",
     },
     {
       title: "Video Call Shopping",
-      image: "/mobile-app-video-call-interface-showing-shop-owner.jpg",
+      image: "/bazaario-video-call-shopping.png",
       description: "Connect with sellers in real-time",
     },
     {
@@ -39,16 +39,16 @@ export function AppShowcase() {
 
         <div
           ref={scrollRef}
-          className="flex gap-6 overflow-x-auto pb-6 snap-x snap-mandatory scrollbar-hide"
+          className="flex justify-center gap-6 overflow-x-auto pb-6 snap-x snap-mandatory scrollbar-hide"
           style={{ scrollbarWidth: "none", msOverflowStyle: "none" }}
         >
           {appScreens.map((screen, index) => (
-            <Card key={index} className="flex-shrink-0 w-[280px] md:w-[320px] snap-center overflow-hidden border-2">
-              <div className="relative aspect-[9/16] bg-muted">
+            <Card key={index} className="flex-shrink-0 w-[220px] sm:w-[240px] md:w-[260px] snap-center overflow-hidden border-2">
+              <div className="relative aspect-[3/4] bg-muted">
                 <img
                   src={screen.image || "/placeholder.svg"}
                   alt={screen.title}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover object-center"
                 />
               </div>
               <div className="p-4 text-center">

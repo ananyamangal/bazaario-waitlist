@@ -11,20 +11,25 @@ import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Spinner } from "@/components/ui/spinner"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { postSellerWaitlist } from "@/lib/api"
 
 interface SellerFormModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
+  onSuccess?: () => void
 }
 
-export function SellerFormModal({ open, onOpenChange }: SellerFormModalProps) {
+export function SellerFormModal({ open, onOpenChange, onSuccess }: SellerFormModalProps) {
   const [step, setStep] = useState<"form" | "success">("form")
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     shopName: "",
     ownerName: "",
     mobileNumber: "",
     categories: [] as string[],
+    otherCategoryName: "",
     openToVideoCalls: "",
   })
 
@@ -41,22 +46,27 @@ export function SellerFormModal({ open, onOpenChange }: SellerFormModalProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+    setError(null)
+
+    const payload = {
+      shopName: formData.shopName,
+      ownerName: formData.ownerName,
+      mobileNumber: formData.mobileNumber,
+      categories: formData.categories,
+      openToVideoCalls: formData.openToVideoCalls as "yes" | "no",
+      ...(formData.otherCategoryName?.trim() && { otherCategoryName: formData.otherCategoryName.trim() }),
+    }
 
     try {
-      const response = await fetch("/api/seller-waitlist", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      })
-
-      if (response.ok) {
+      const result = await postSellerWaitlist(payload)
+      if (result.success) {
         setStep("success")
+        onSuccess?.()
       } else {
-        alert("Failed to submit. Please try again.")
+        setError(result.error)
       }
-    } catch (error) {
-      console.error("Error submitting form:", error)
-      alert("Failed to submit. Please try again.")
+    } catch {
+      setError("Connection error. Please check your network and try again.")
     } finally {
       setLoading(false)
     }
@@ -64,6 +74,7 @@ export function SellerFormModal({ open, onOpenChange }: SellerFormModalProps) {
 
   const handleClose = () => {
     onOpenChange(false)
+    setError(null)
     setTimeout(() => {
       setStep("form")
       setFormData({
@@ -71,10 +82,13 @@ export function SellerFormModal({ open, onOpenChange }: SellerFormModalProps) {
         ownerName: "",
         mobileNumber: "",
         categories: [],
+        otherCategoryName: "",
         openToVideoCalls: "",
       })
     }, 300)
   }
+
+  const clearError = () => setError(null)
 
   const toggleCategory = (category: string) => {
     setFormData((prev) => ({
@@ -90,7 +104,8 @@ export function SellerFormModal({ open, onOpenChange }: SellerFormModalProps) {
       <Dialog open={open} onOpenChange={handleClose}>
         <DialogContent className="sm:max-w-md">
           <div className="flex justify-center mb-4">
-            <Image src="/logo.png" alt="Bazaario" width={160} height={50} className="h-11 w-auto" />
+            <Image src="/logo.png" alt="Bazaario" width={160} height={50} className="h-11 w-auto dark:hidden" />
+            <Image src="/logo-dark.png" alt="Bazaario" width={160} height={50} className="h-11 w-auto hidden dark:block" />
           </div>
           <DialogHeader>
             <DialogTitle className="text-2xl text-center">Thank You!</DialogTitle>
@@ -117,7 +132,8 @@ export function SellerFormModal({ open, onOpenChange }: SellerFormModalProps) {
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-2xl max-h-[90vh] overflow-y-auto">
         <div className="flex justify-center mb-4">
-          <Image src="/logo.png" alt="Bazaario" width={160} height={50} className="h-11 w-auto" />
+          <Image src="/logo.png" alt="Bazaario" width={160} height={50} className="h-11 w-auto dark:hidden" />
+          <Image src="/logo-dark.png" alt="Bazaario" width={160} height={50} className="h-11 w-auto hidden dark:block" />
         </div>
 
         <DialogHeader className="space-y-3">
@@ -129,6 +145,11 @@ export function SellerFormModal({ open, onOpenChange }: SellerFormModalProps) {
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-8 mt-6">
+          {error && (
+            <Alert variant="destructive" className="text-sm">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
           {/* Section 1: Basic Info */}
           <div className="space-y-5">
             <div className="space-y-2">
@@ -139,7 +160,10 @@ export function SellerFormModal({ open, onOpenChange }: SellerFormModalProps) {
                 id="shopName"
                 required
                 value={formData.shopName}
-                onChange={(e) => setFormData({ ...formData, shopName: e.target.value })}
+                onChange={(e) => {
+                  clearError()
+                  setFormData({ ...formData, shopName: e.target.value })
+                }}
                 placeholder="Enter your shop name"
                 className="h-11"
               />
@@ -153,7 +177,10 @@ export function SellerFormModal({ open, onOpenChange }: SellerFormModalProps) {
                 id="ownerName"
                 required
                 value={formData.ownerName}
-                onChange={(e) => setFormData({ ...formData, ownerName: e.target.value })}
+                onChange={(e) => {
+                  clearError()
+                  setFormData({ ...formData, ownerName: e.target.value })
+                }}
                 placeholder="Enter your name"
                 className="h-11"
               />
@@ -168,7 +195,10 @@ export function SellerFormModal({ open, onOpenChange }: SellerFormModalProps) {
                 type="tel"
                 required
                 value={formData.mobileNumber}
-                onChange={(e) => setFormData({ ...formData, mobileNumber: e.target.value })}
+                onChange={(e) => {
+                  clearError()
+                  setFormData({ ...formData, mobileNumber: e.target.value })
+                }}
                 placeholder="Enter your mobile number"
                 className="h-11"
               />
@@ -198,6 +228,20 @@ export function SellerFormModal({ open, onOpenChange }: SellerFormModalProps) {
                   </div>
                 ))}
               </div>
+              {formData.categories.includes("Other") && (
+                <div className="space-y-2 pt-2 pl-6">
+                  <Label htmlFor="otherCategoryName" className="text-sm font-medium">
+                    Please specify the category name
+                  </Label>
+                  <Input
+                    id="otherCategoryName"
+                    value={formData.otherCategoryName}
+                    onChange={(e) => setFormData({ ...formData, otherCategoryName: e.target.value })}
+                    placeholder="Type your category (e.g. Handicrafts, Art)"
+                    className="h-11 max-w-sm"
+                  />
+                </div>
+              )}
             </div>
 
             <div className="space-y-3">

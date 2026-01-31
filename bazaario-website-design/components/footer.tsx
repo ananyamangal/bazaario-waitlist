@@ -6,9 +6,22 @@ export function Footer() {
     <footer className="bg-muted/50 border-t mt-16">
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Logo and Description */}
+          {/* Logo and Description – light in light mode, dark logo in dark mode */}
           <div className="space-y-4">
-            <Image src="/logo.png" alt="Bazaario" width={180} height={55} className="h-12 w-auto" />
+            <Image
+              src="/logo.png"
+              alt="Bazaario"
+              width={180}
+              height={55}
+              className="h-12 w-auto dark:hidden"
+            />
+            <Image
+              src="/logo-dark.png"
+              alt="Bazaario"
+              width={180}
+              height={55}
+              className="h-12 w-auto hidden dark:block"
+            />
             <p className="text-sm text-muted-foreground leading-relaxed">
               Bringing Delhi's local markets to your screen — live. Shop from real stores via video call.
             </p>
@@ -44,7 +57,11 @@ export function Footer() {
             <h3 className="font-semibold mb-4">Contact</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
               <li>Delhi, India</li>
-              <li>contact@bazaario.com</li>
+              <li>
+                <a href="mailto:ananyamangal05@gmail.com" className="hover:text-foreground transition-colors">
+                  ananyamangal05@gmail.com
+                </a>
+              </li>
             </ul>
           </div>
         </div>

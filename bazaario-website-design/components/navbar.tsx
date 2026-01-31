@@ -21,9 +21,24 @@ export function Navbar() {
     <nav className="sticky top-0 z-50 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 border-b">
       <div className="container mx-auto px-4">
         <div className="flex h-20 items-center justify-between">
-          {/* Logo */}
-          <Link href="/" className="flex items-center">
-            <Image src="/logo.png" alt="Bazaario" width={200} height={60} className="h-14 w-auto" priority />
+          {/* Logo – light in light mode, dark logo in dark mode */}
+          <Link href="/" className="flex items-center relative">
+            <Image
+              src="/logo.png"
+              alt="Bazaario"
+              width={200}
+              height={60}
+              className="h-14 w-auto dark:hidden"
+              priority
+            />
+            <Image
+              src="/logo-dark.png"
+              alt="Bazaario"
+              width={200}
+              height={60}
+              className="h-14 w-auto hidden dark:block"
+              priority
+            />
           </Link>
 
           {/* Desktop Navigation */}

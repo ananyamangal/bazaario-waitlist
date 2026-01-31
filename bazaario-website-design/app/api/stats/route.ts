@@ -26,14 +26,14 @@ export async function GET() {
     // Start with base numbers and add real counts
     return NextResponse.json({
       shops: 112 + shopsCount,
-      buyers: 1002131 + buyersCount,
+      buyers: 128 + buyersCount,
     })
   } catch (error) {
     console.error("Error fetching stats:", error)
     // Return default values if DB fails
     return NextResponse.json({
       shops: 112,
-      buyers: 1002131,
+      buyers: 128,
     })
   }
 }

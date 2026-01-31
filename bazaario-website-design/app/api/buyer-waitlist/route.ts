@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server"
 import { MongoClient } from "mongodb"
+import { buyerWaitlistSchema } from "@/lib/schemas/waitlist"
 
 // Initialize MongoDB client
 let cachedClient: MongoClient | null = null
@@ -17,18 +18,18 @@ async function connectToDatabase() {
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { email, phoneNumber } = body
+    const parsed = buyerWaitlistSchema.safeParse(body)
 
-    // Validate required fields
-    if (!email || !phoneNumber) {
-      return NextResponse.json({ error: "Missing required fields" }, { status: 400 })
+    if (!parsed.success) {
+      const message = parsed.error.errors.map((e) => e.message).join("; ") || "Invalid input"
+      return NextResponse.json({ error: message }, { status: 400 })
     }
 
+    const { email, phoneNumber } = parsed.data
     const client = await connectToDatabase()
     const db = client.db("bazaario")
     const collection = db.collection("buyer_waitlist")
 
-    // Insert the buyer data
     await collection.insertOne({
       email,
       phoneNumber,

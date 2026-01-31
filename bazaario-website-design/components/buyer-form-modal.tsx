@@ -9,15 +9,19 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Spinner } from "@/components/ui/spinner"
+import { Alert, AlertDescription } from "@/components/ui/alert"
+import { postBuyerWaitlist } from "@/lib/api"
 
 interface BuyerFormModalProps {
   open: boolean
   onOpenChange: (open: boolean) => void
+  onSuccess?: () => void
 }
 
-export function BuyerFormModal({ open, onOpenChange }: BuyerFormModalProps) {
+export function BuyerFormModal({ open, onOpenChange, onSuccess }: BuyerFormModalProps) {
   const [step, setStep] = useState<"form" | "success">("form")
   const [loading, setLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     email: "",
     phoneNumber: "",
@@ -26,22 +30,18 @@ export function BuyerFormModal({ open, onOpenChange }: BuyerFormModalProps) {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setLoading(true)
+    setError(null)
 
     try {
-      const response = await fetch("/api/buyer-waitlist", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
-      })
-
-      if (response.ok) {
+      const result = await postBuyerWaitlist(formData)
+      if (result.success) {
         setStep("success")
+        onSuccess?.()
       } else {
-        alert("Failed to submit. Please try again.")
+        setError(result.error)
       }
-    } catch (error) {
-      console.error("Error submitting form:", error)
-      alert("Failed to submit. Please try again.")
+    } catch {
+      setError("Connection error. Please check your network and try again.")
     } finally {
       setLoading(false)
     }
@@ -49,18 +49,22 @@ export function BuyerFormModal({ open, onOpenChange }: BuyerFormModalProps) {
 
   const handleClose = () => {
     onOpenChange(false)
+    setError(null)
     setTimeout(() => {
       setStep("form")
       setFormData({ email: "", phoneNumber: "" })
     }, 300)
   }
 
+  const clearError = () => setError(null)
+
   if (step === "success") {
     return (
       <Dialog open={open} onOpenChange={handleClose}>
         <DialogContent className="sm:max-w-md">
           <div className="flex justify-center mb-4">
-            <Image src="/logo.png" alt="Bazaario" width={160} height={50} className="h-11 w-auto" />
+            <Image src="/logo.png" alt="Bazaario" width={160} height={50} className="h-11 w-auto dark:hidden" />
+            <Image src="/logo-dark.png" alt="Bazaario" width={160} height={50} className="h-11 w-auto hidden dark:block" />
           </div>
           <DialogHeader>
             <DialogTitle className="text-2xl text-center">You're on the list!</DialogTitle>
@@ -85,7 +89,8 @@ export function BuyerFormModal({ open, onOpenChange }: BuyerFormModalProps) {
     <Dialog open={open} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-md">
         <div className="flex justify-center mb-4">
-          <Image src="/logo.png" alt="Bazaario" width={160} height={50} className="h-11 w-auto" />
+          <Image src="/logo.png" alt="Bazaario" width={160} height={50} className="h-11 w-auto dark:hidden" />
+          <Image src="/logo-dark.png" alt="Bazaario" width={160} height={50} className="h-11 w-auto hidden dark:block" />
         </div>
 
         <DialogHeader className="space-y-3">
@@ -96,6 +101,11 @@ export function BuyerFormModal({ open, onOpenChange }: BuyerFormModalProps) {
         </DialogHeader>
 
         <form onSubmit={handleSubmit} className="space-y-5 mt-6">
+          {error && (
+            <Alert variant="destructive" className="text-sm">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
           <div className="space-y-2">
             <Label htmlFor="email" className="text-sm font-medium">
               Email *
@@ -105,7 +115,10 @@ export function BuyerFormModal({ open, onOpenChange }: BuyerFormModalProps) {
               type="email"
               required
               value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              onChange={(e) => {
+                clearError()
+                setFormData({ ...formData, email: e.target.value })
+              }}
               placeholder="your@email.com"
               className="h-11"
             />
@@ -120,7 +133,10 @@ export function BuyerFormModal({ open, onOpenChange }: BuyerFormModalProps) {
               type="tel"
               required
               value={formData.phoneNumber}
-              onChange={(e) => setFormData({ ...formData, phoneNumber: e.target.value })}
+              onChange={(e) => {
+                clearError()
+                setFormData({ ...formData, phoneNumber: e.target.value })
+              }}
               placeholder="Your phone number"
               className="h-11"
             />
