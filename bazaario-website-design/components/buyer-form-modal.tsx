@@ -144,7 +144,7 @@ export function BuyerFormModal({ open, onOpenChange, onSuccess }: BuyerFormModal
 
           <Button
             type="submit"
-            className="w-full h-12 text-base bg-[#C94A52] hover:bg-[#B83D45] text-white"
+            className="w-full h-12 text-base bg-[#9B2D35] hover:bg-[#8B1E26] text-white"
             disabled={loading}
           >
             {loading ? <Spinner className="mr-2" /> : null}
